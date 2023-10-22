@@ -9,7 +9,7 @@ def grafoMalla(m, n, dirigido=False):
     :param dirigido: el grafo es dirigido?
     :return: grafo generado
     """
-    print("Generando grafo de malla con ")
+    print(f"Generando grafo de malla con {m}X{n} = {m*n} nodos")
 
     if m <= 1:
         m = 2
@@ -43,6 +43,7 @@ def grafoErdosRenyi(n, m, dirigido=False, auto=False):
     :param auto: permitir auto-ciclos?
     :return: grafo generado
     """
+    print(f"Generando grafo Erdos-Renyi con {n} nodos y {m} aristas")
     if n <= 0:
         n = 1
     if m < n-1:
@@ -52,27 +53,42 @@ def grafoErdosRenyi(n, m, dirigido=False, auto=False):
     for i in range(n):
         nuevo_grafo.agregarNodo(i)
 
-    print(m)
+    #print(m)
     m = min(m,((n*(n-1) if dirigido else n*(n-1)/2) - (n if not auto else 0) ) + n)
-    print(m)
+    #print(m)
     
+    potenciales_aristas = []
+    if dirigido and auto:
+        potenciales_aristas = [(a,b) for a in range(n) for b in range(n)]
+    if dirigido and not auto:
+        potenciales_aristas = [(a,b)  for a in range(n) for b in range(n) if a!=b]
+    if not dirigido and auto:
+        potenciales_aristas = [(a,b)  for a in range(n) for b in range(n) if a<=b]
+    if not dirigido and not auto:
+        potenciales_aristas = [(a,b)  for a in range(n) for b in range(n) if a<b]
+
     while len(nuevo_grafo.aristas) < m :
-        i = random.randint(0,n-1)
-        j = random.randint(0,n-1)
-        if (auto or i != j):
+        i = random.randint(0,len(potenciales_aristas)-1)
+        nuevo_grafo.agregarArista(potenciales_aristas[i][0],potenciales_aristas[i][1])
+        potenciales_aristas.remove(potenciales_aristas[i])
 
-            existe = False
-            for a in nuevo_grafo.aristas.values():
-                if (a.nodo1.id == i and a.nodo2.id == j):
-                    existe = True
+    # while len(nuevo_grafo.aristas) < m :
+    #     i = random.randint(0,n-1)
+    #     j = random.randint(0,n-1)
+    #     if (auto or i != j):
 
-                if not dirigido and a.nodo1.id == j and a.nodo2.id == i:
-                    existe = True
-            if existe:
-                continue
+    #         existe = False
+    #         for a in nuevo_grafo.aristas.values():
+    #             if (a.nodo1.id == i and a.nodo2.id == j):
+    #                 existe = True
+
+    #             if not dirigido and a.nodo1.id == j and a.nodo2.id == i:
+    #                 existe = True
+    #         if existe:
+    #             continue
             
-            # Agregamos nodo
-            nuevo_grafo.agregarArista(i,j)
+    #         # Agregamos nodo
+    #         nuevo_grafo.agregarArista(i,j)
     return nuevo_grafo
 
 def grafoGilbert(n, p, dirigido=False, auto=False):
@@ -84,6 +100,7 @@ def grafoGilbert(n, p, dirigido=False, auto=False):
     :param auto: permitir auto-ciclos?
     :return: grafo generado
     """
+    print(f"Generando grafo de Gilbert con {n} nodos y probabilidad p={p}")
     if n <= 0:
         n = 1
     if 0 > p and p < 1:
@@ -122,6 +139,7 @@ def grafoGeograficoSimple(n, r, dirigido=False, auto=False):
     :return: grafo generado
     """
 
+    print(f"Generando grafo geográfico con {n} nodos y distancia r={r}")
     if n <= 0:
         n = 1
     if 0 > r and r < 1:
@@ -165,6 +183,7 @@ def grafoBarabasiAlbert(n, d, dirigido=False, auto=False):
     :param auto: permitir auto-ciclos?
     :return: grafo generado
     """
+    print(f"Generando grafo de Barabasi-Albert con {n} nodos y grado máximo {d}")
 
     if n <= 0:
         n = 1
@@ -206,6 +225,7 @@ def grafoDorogovtsevMendes(n, dirigido=False):
     :param dirigido: el grafo es dirigido?
     :return: grafo generado
     """
+    print(f"Generando grafo de Dorogovtsev con {n} nodos")
     if n < 3:
         n = 3
 
@@ -231,6 +251,24 @@ def grafoDorogovtsevMendes(n, dirigido=False):
 # Para implementacion futura
 #print(Arista(0,Nodo(0,'a'),Nodo(1,'b')) == Arista(1,Nodo(0,'a'),Nodo(1,'b')))
 
+
+# Test
+
+# g [= grafoDorogovtsevMendes(10)
+# t = g.BFS(0)
+
+# arbolito = Grafo()
+# g.DFS(0, arbolito)
+
+# arbolito2 = g.DFS_I(0)
+
+# g.guardar("g_1.gv", True)
+# t.guardar("g_2.gv", True)
+# arbolito.guardar("g_3.gv", True)
+# arbolito2.guardar("g_4.gv", True)]
+# exit()
+
+
 # Generacion de grafos
 tamanios = [30,100,500]
 cantidad = 1
@@ -240,21 +278,103 @@ for n in tamanios:
     for j in range(cantidad):
         grafito = grafoMalla(int(n**(1/2))+1,int(n**(1/2))+1, False)
         grafito.guardar("Grafos/grafito_Malla_"+str(n)+"_"+str(j)+".gv")
+
+        s = random.randint(0,len(grafito.nodos)-1)
+
+        bfs = grafito.BFS(s)
+        bfs.guardar("Grafos/grafito_Malla_"+str(n)+"_"+str(j)+"_bfs_"+str(s)+".gv")
+
+        dfs = Grafo()
+        grafito.DFS(s,dfs)
+        dfs.guardar("Grafos/grafito_Malla_"+str(n)+"_"+str(j)+"_dfs_"+str(s)+".gv")
+
+        dfsi = grafito.DFS_I(s)
+        dfsi.guardar("Grafos/grafito_Malla_"+str(n)+"_"+str(j)+"_dfsi_"+str(s)+".gv")
+
+
         
         grafito = grafoErdosRenyi(n, n*random.randint(int(n/2),n), False, False)
         grafito.guardar("Grafos/grafito_ErdosRenyi_"+str(n)+"_"+str(j)+".gv")
+
+        s = random.randint(0,len(grafito.nodos)-1)
+
+        bfs = grafito.BFS(s)
+        bfs.guardar("Grafos/grafito_ErdosRenyi_"+str(n)+"_"+str(j)+"_bfs_"+str(s)+".gv")
+
+        dfs = Grafo()
+        grafito.DFS(s,dfs)
+        dfs.guardar("Grafos/grafito_ErdosRenyi_"+str(n)+"_"+str(j)+"_dfs_"+str(s)+".gv")
+
+        dfsi = grafito.DFS_I(s)
+        dfsi.guardar("Grafos/grafito_ErdosRenyi_"+str(n)+"_"+str(j)+"_dfsi_"+str(s)+".gv")
         
+
+
         grafito = grafoGilbert(n, 0.5*random.random(), False, auto=False)
         grafito.guardar("Grafos/grafito_Gilbert_"+str(n)+"_"+str(j)+".gv")
+
+        s = random.randint(0,len(grafito.nodos)-1)
+
+        bfs = grafito.BFS(s)
+        bfs.guardar("Grafos/grafito_Gilbert_"+str(n)+"_"+str(j)+"_bfs_"+str(s)+".gv")
+
+        dfs = Grafo()
+        grafito.DFS(s,dfs)
+        dfs.guardar("Grafos/grafito_Gilbert_"+str(n)+"_"+str(j)+"_dfs_"+str(s)+".gv")
+
+        dfsi = grafito.DFS_I(s)
+        dfsi.guardar("Grafos/grafito_Gilbert_"+str(n)+"_"+str(j)+"_dfsi_"+str(s)+".gv")
+
+
         
         grafito = grafoGeograficoSimple(n, 0.05 + 0.20*random.random(), False, False)
         grafito.guardar("Grafos/grafito_GeograficoSimple_"+str(n)+"_"+str(j)+".gv")
+
+        s = random.randint(0,len(grafito.nodos)-1)
+
+        bfs = grafito.BFS(s)
+        bfs.guardar("Grafos/grafito_GeograficoSimple_"+str(n)+"_"+str(j)+"_bfs_"+str(s)+".gv")
+
+        dfs = Grafo()
+        grafito.DFS(s,dfs)
+        dfs.guardar("Grafos/grafito_GeograficoSimple_"+str(n)+"_"+str(j)+"_dfs_"+str(s)+".gv")
+
+        dfsi = grafito.DFS_I(s)
+        dfsi.guardar("Grafos/grafito_GeograficoSimple_"+str(n)+"_"+str(j)+"_dfsi_"+str(s)+".gv")
+
+
         
         grafito = grafoBarabasiAlbert(n, int(n**(1/2)), False, False)
         grafito.guardar("Grafos/grafito_BarabasiAlbert_"+str(n)+"_"+str(j)+".gv")
+
+        s = random.randint(0,len(grafito.nodos)-1)
+
+        bfs = grafito.BFS(s)
+        bfs.guardar("Grafos/grafito_BarabasiAlbert_"+str(n)+"_"+str(j)+"_bfs_"+str(s)+".gv")
+
+        dfs = Grafo()
+        grafito.DFS(s,dfs)
+        dfs.guardar("Grafos/grafito_BarabasiAlbert_"+str(n)+"_"+str(j)+"_dfs_"+str(s)+".gv")
+
+        dfsi = grafito.DFS_I(s)
+        dfsi.guardar("Grafos/grafito_BarabasiAlbert_"+str(n)+"_"+str(j)+"_dfsi_"+str(s)+".gv")
+
+
         
         grafito = grafoDorogovtsevMendes(n, False)
         grafito.guardar("Grafos/grafito_DorogovtsevMendes_"+str(n)+"_"+str(j)+".gv")
+
+        s = random.randint(0,len(grafito.nodos)-1)
+
+        bfs = grafito.BFS(s)
+        bfs.guardar("Grafos/grafito_DorogovtsevMendes_"+str(n)+"_"+str(j)+"_bfs_"+str(s)+".gv")
+
+        dfs = Grafo()
+        grafito.DFS(s,dfs)
+        dfs.guardar("Grafos/grafito_DorogovtsevMendes_"+str(n)+"_"+str(j)+"_dfs_"+str(s)+".gv")
+
+        dfsi = grafito.DFS_I(s)
+        dfsi.guardar("Grafos/grafito_DorogovtsevMendes_"+str(n)+"_"+str(j)+"_dfsi_"+str(s)+".gv")
         
 
 """

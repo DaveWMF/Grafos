@@ -50,7 +50,7 @@ class Grafo:
         with open(name, "w") as f:
             f.write("digraph G {\n" if self.dirigido else "graph G {\n")
             for n in self.nodos.values():
-                f.write(str(n.id) + (f'[label="{n.data}"]\n' if data else ""))
+                f.write(str(n.id) + (f'[label="{n.data}"]\n' if data else "\n"))
             for a in self.aristas.values():
                 f.write(str(a.nodo1.id) + (" -> " if self.dirigido else " -- ") + str(a.nodo2.id) + '\n')
 

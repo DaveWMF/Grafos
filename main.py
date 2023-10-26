@@ -285,7 +285,7 @@ for n in tamanios:
         bfs.guardar("Grafos/grafito_Malla_"+str(n)+"_"+str(j)+"_bfs_"+str(s)+".gv")
 
         dfs = Grafo()
-        grafito.DFS(s,dfs)
+        grafito.DFS(s,dfs, {})
         dfs.guardar("Grafos/grafito_Malla_"+str(n)+"_"+str(j)+"_dfs_"+str(s)+".gv")
 
         dfsi = grafito.DFS_I(s)
@@ -302,7 +302,7 @@ for n in tamanios:
         bfs.guardar("Grafos/grafito_ErdosRenyi_"+str(n)+"_"+str(j)+"_bfs_"+str(s)+".gv")
 
         dfs = Grafo()
-        grafito.DFS(s,dfs)
+        grafito.DFS(s,dfs, {})
         dfs.guardar("Grafos/grafito_ErdosRenyi_"+str(n)+"_"+str(j)+"_dfs_"+str(s)+".gv")
 
         dfsi = grafito.DFS_I(s)
@@ -319,7 +319,7 @@ for n in tamanios:
         bfs.guardar("Grafos/grafito_Gilbert_"+str(n)+"_"+str(j)+"_bfs_"+str(s)+".gv")
 
         dfs = Grafo()
-        grafito.DFS(s,dfs)
+        grafito.DFS(s,dfs, {})
         dfs.guardar("Grafos/grafito_Gilbert_"+str(n)+"_"+str(j)+"_dfs_"+str(s)+".gv")
 
         dfsi = grafito.DFS_I(s)
@@ -336,7 +336,7 @@ for n in tamanios:
         bfs.guardar("Grafos/grafito_GeograficoSimple_"+str(n)+"_"+str(j)+"_bfs_"+str(s)+".gv")
 
         dfs = Grafo()
-        grafito.DFS(s,dfs)
+        grafito.DFS(s,dfs, {})
         dfs.guardar("Grafos/grafito_GeograficoSimple_"+str(n)+"_"+str(j)+"_dfs_"+str(s)+".gv")
 
         dfsi = grafito.DFS_I(s)
@@ -353,7 +353,7 @@ for n in tamanios:
         bfs.guardar("Grafos/grafito_BarabasiAlbert_"+str(n)+"_"+str(j)+"_bfs_"+str(s)+".gv")
 
         dfs = Grafo()
-        grafito.DFS(s,dfs)
+        grafito.DFS(s,dfs, {})
         dfs.guardar("Grafos/grafito_BarabasiAlbert_"+str(n)+"_"+str(j)+"_dfs_"+str(s)+".gv")
 
         dfsi = grafito.DFS_I(s)
@@ -370,7 +370,7 @@ for n in tamanios:
         bfs.guardar("Grafos/grafito_DorogovtsevMendes_"+str(n)+"_"+str(j)+"_bfs_"+str(s)+".gv")
 
         dfs = Grafo()
-        grafito.DFS(s,dfs)
+        grafito.DFS(s,dfs, {})
         dfs.guardar("Grafos/grafito_DorogovtsevMendes_"+str(n)+"_"+str(j)+"_dfs_"+str(s)+".gv")
 
         dfsi = grafito.DFS_I(s)

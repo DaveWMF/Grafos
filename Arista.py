@@ -5,6 +5,7 @@ class Arista:
         self.id =  id_arista
         self.nodo1 = nodo1
         self.nodo2 = nodo2
+        self.data = 0
     
     def __eq__(self, __value: object) -> bool:
         return self.nodo1.id == __value.nodo1.id and self.nodo2.id == __value.nodo2.id

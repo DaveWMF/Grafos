@@ -167,9 +167,11 @@ def grafoGeograficoSimple(n, r, dirigido=False, auto=False):
                     if existe:
                         continue
                 # Verificar si la distancia es 
-                if (nuevo_grafo.nodos[i].data[0]-nuevo_grafo.nodos[j].data[0]) ** 2 + \
-                    (nuevo_grafo.nodos[i].data[1]-nuevo_grafo.nodos[j].data[1]) ** 2 < r*r:
-                    nuevo_grafo.agregarArista(i,j)
+                dist = (nuevo_grafo.nodos[i].data[0]-nuevo_grafo.nodos[j].data[0]) ** 2 + \
+                    (nuevo_grafo.nodos[i].data[1]-nuevo_grafo.nodos[j].data[1]) ** 2
+                if dist < r*r:
+                    id_arista = nuevo_grafo.agregarArista(i,j)
+                    nuevo_grafo.aristas[id_arista].data = dist ** (1/2)
 
 
     return nuevo_grafo
@@ -254,19 +256,51 @@ def grafoDorogovtsevMendes(n, dirigido=False):
 
 # Test
 
-# g [= grafoDorogovtsevMendes(10)
-# t = g.BFS(0)
+g = Grafo(dirigido=True)
+ns = g.agregarNodo("s")
+n2 = g.agregarNodo("2")
+n3 = g.agregarNodo("3")
+n4 = g.agregarNodo("4")
+n5 = g.agregarNodo("5")
+n6 = g.agregarNodo("6")
+n7 = g.agregarNodo("7")
+nt = g.agregarNodo("t")
 
-# arbolito = Grafo()
-# g.DFS(0, arbolito)
+ind = g.agregarArista(ns, n2)
+g.aristas[ind].data = 9
+ind = g.agregarArista(ns, n6)
+g.aristas[ind].data = 14
+ind = g.agregarArista(ns, n7)
+g.aristas[ind].data = 15
+ind = g.agregarArista(n2, n3)
+g.aristas[ind].data = 24
+ind = g.agregarArista(n3, n5)
+g.aristas[ind].data = 2
+ind = g.agregarArista(n3, nt)
+g.aristas[ind].data = 19
+ind = g.agregarArista(n4, n3)
+g.aristas[ind].data = 6
+ind = g.agregarArista(n4, nt)
+g.aristas[ind].data = 6
+ind = g.agregarArista(n5, n4)
+g.aristas[ind].data = 11
+ind = g.agregarArista(n5, nt)
+g.aristas[ind].data = 16
+ind = g.agregarArista(n6, n3)
+g.aristas[ind].data = 18
+ind = g.agregarArista(n6, n5)
+g.aristas[ind].data = 30
+ind = g.agregarArista(n6, n7)
+g.aristas[ind].data = 5
+ind = g.agregarArista(n7, n5)
+g.aristas[ind].data = 20
+ind = g.agregarArista(n7, nt)
+g.aristas[ind].data = 44
 
-# arbolito2 = g.DFS_I(0)
+dijtree = g.Dijstra(ns)
+dijtree.guardar("g_dij.gv", True)
 
-# g.guardar("g_1.gv", True)
-# t.guardar("g_2.gv", True)
-# arbolito.guardar("g_3.gv", True)
-# arbolito2.guardar("g_4.gv", True)]
-# exit()
+exit()
 
 
 # Generacion de grafos

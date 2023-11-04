@@ -137,28 +137,30 @@ class Grafo:
         visitados = {}
 
         #prioridades = [(len(self.nodos)+1,self.nodos[x]) for x in range(len(self.nodos))]
-        prioridades = [[math.inf,self.nodos[x].id, -1] for x in range(len(self.nodos))]
-        print("P:",prioridades)
+        prioridades = [[math.inf,self.nodos[x].id, -1, -1] for x in range(len(self.nodos))]
+        #print("P:",prioridades)
         
         # Colocar nodo s con prioridad 0
         prioridades[s][0] = 0
+        le = 0
 
         arbol = Grafo()
 
         while len(prioridades) > 0:
             prioridades.sort()
-            p,idnodo,i1 = prioridades.pop(0)
+            p,idnodo,i1,peso = prioridades.pop(0)
             nodo = self.nodos[idnodo]
             d_id_nodo = arbol.agregarNodo(nodo.data)
             visitados[nodo.id] = nodo
 
             if i1 != -1:
-                arbol.agregarArista(i1,d_id_nodo)
+                a_id_a = arbol.agregarArista(i1,d_id_nodo)
+                arbol.aristas[a_id_a].data = peso
             
             
-            print("N:", nodo.data)
-            print("Vec:", [v.data for v in nodo.vecinos.values()])
-            print("Vis:", [(v,visitados.get(v).data) for v in visitados.keys()])
+            #print("N:", nodo.data)
+            #print("Vec:", [v.data for v in nodo.vecinos.values()])
+            #print("Vis:", [(v,visitados.get(v).data) for v in visitados.keys()])
 
             # Actualizamos las prioridades para sacar el mejor
             # valor en la siguiente iteracion
@@ -167,10 +169,10 @@ class Grafo:
                 if visitados.get(v.id) == None:
 
                     # Obtenemos index del objeto
-                    print("Prio:",prioridades)
-                    print("V:",v.data)
+                    #print("Prio:",prioridades)
+                    #print("V:",v.data)
                     elemento = next(filter(lambda pri: pri[1] == v.id,prioridades))
-                    print(elemento)
+                    #print(elemento)
                     vi = prioridades.index(elemento)
                     # Obtenemos el dato de la arista
                     arista = next(
@@ -185,8 +187,9 @@ class Grafo:
                     if prioridades[vi][0] > p + le:
                         prioridades[vi][0] = p + le
                         prioridades[vi][2] = d_id_nodo
+                        prioridades[vi][3] = le
                         # Actualizar prioridad de v->d(v)=d(u)+le
-            arbol.imprimir()
+            #arbol.imprimir()
 
         return arbol 
 

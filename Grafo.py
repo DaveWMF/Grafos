@@ -150,7 +150,7 @@ class Grafo:
             prioridades.sort()
             p,idnodo,i1,peso = prioridades.pop(0)
             nodo = self.nodos[idnodo]
-            d_id_nodo = arbol.agregarNodo(nodo.data)
+            d_id_nodo = arbol.agregarNodo(str(nodo.data)+" - "+ str(p))
             visitados[nodo.id] = nodo
 
             if i1 != -1:

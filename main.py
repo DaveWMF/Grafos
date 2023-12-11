@@ -304,11 +304,26 @@ def grafoDorogovtsevMendes(n, dirigido=False):
 # dijtree = g.Dijstra(ns)
 # dijtree.guardar("g_dij.gv", True)
 
+# g = grafoMalla(3,3)
+# g.generarValoresDeArista()
+# a = g.KruscalD()
+# b = g.KruscalI()
+# c = g.Prim()
+# g.imprimir()
+# a.imprimir()
+# c.imprimir()
+
+
+# g.guardar("GM.dot", True)
+# a.guardar("GMK.dot", True)
+# b.guardar("GMKI.dot", True)
+# c.guardar("GMP.dot", True)
+
 # exit()
 
 
 # Generacion de grafos
-tamanios = [30,500]
+tamanios = [30,300]
 cantidad = 1
 
 # Ciclo generador
@@ -318,11 +333,18 @@ for n in tamanios:
         grafito.generarValoresDeArista()
         grafito.guardar("Grafos/grafito_Malla_"+str(n)+"_"+str(j)+".gv", True)
 
-        s = random.randint(0,len(grafito.nodos)-1)
+        print("Generando Kruscal")
+        kruscald = grafito.KruscalD()
+        print("Generando Kruscal I")
+        kruscali = grafito.KruscalI()
+        print("Generando Prim")
+        prim = grafito.Prim()
 
-        print("Generando dijstra")
-        dijstra = grafito.Dijstra(s)
-        dijstra.guardar("Grafos/grafito_Malla_"+str(n)+"_"+str(j)+"_dijstra_N"+str(s)+".gv", True)
+        kruscald.guardar("Grafos/grafito_Malla_"+str(n)+"_"+str(j)+"_KruscalD.gv", True)
+        kruscali.guardar("Grafos/grafito_Malla_"+str(n)+"_"+str(j)+"_KruscalI.gv", True)
+        prim.guardar("Grafos/grafito_Malla_"+str(n)+"_"+str(j)+"_Prim.gv", True)
+        
+        
 
 
 
@@ -332,11 +354,16 @@ for n in tamanios:
         grafito.generarValoresDeArista()
         grafito.guardar("Grafos/grafito_ErdosRenyi_"+str(n)+"_"+str(j)+".gv", True)
 
-        s = random.randint(0,len(grafito.nodos)-1)
+        print("Generando Kruscal")
+        kruscald = grafito.KruscalD()
+        print("Generando Kruscal I")
+        kruscali = grafito.KruscalI()
+        print("Generando Prim")
+        prim = grafito.Prim()
 
-        print("Generando dijstra")
-        dijstra = grafito.Dijstra(s)
-        dijstra.guardar("Grafos/grafito_ErdosRenyi_"+str(n)+"_"+str(j)+"_dijstra_N"+str(s)+".gv", True)
+        kruscald.guardar("Grafos/grafito_ErdosRenyi_"+str(n)+"_"+str(j)+"_KruscalD.gv", True)
+        kruscali.guardar("Grafos/grafito_ErdosRenyi_"+str(n)+"_"+str(j)+"_KruscalI.gv", True)
+        prim.guardar("Grafos/grafito_ErdosRenyi_"+str(n)+"_"+str(j)+"_Prim.gv", True)
         
 
 
@@ -346,11 +373,16 @@ for n in tamanios:
         grafito.generarValoresDeArista()
         grafito.guardar("Grafos/grafito_Gilbert_"+str(n)+"_"+str(j)+".gv", True)
 
-        s = random.randint(0,len(grafito.nodos)-1)
+        print("Generando Kruscal")
+        kruscald = grafito.KruscalD()
+        print("Generando Kruscal I")
+        kruscali = grafito.KruscalI()
+        print("Generando Prim")
+        prim = grafito.Prim()
 
-        print("Generando dijstra")
-        dijstra = grafito.Dijstra(s)
-        dijstra.guardar("Grafos/grafito_Gilbert_"+str(n)+"_"+str(j)+"_dijstra_N"+str(s)+".gv", True)
+        kruscald.guardar("Grafos/grafito_Gilbert_"+str(n)+"_"+str(j)+"_KruscalD.gv", True)
+        kruscali.guardar("Grafos/grafito_Gilbert_"+str(n)+"_"+str(j)+"_KruscalI.gv", True)
+        prim.guardar("Grafos/grafito_Gilbert_"+str(n)+"_"+str(j)+"_Prim.gv", True)
 
 
 
@@ -359,11 +391,16 @@ for n in tamanios:
         grafito = grafoGeograficoSimple(n, 0.2 + 0.20*random.random(), False, False)
         grafito.guardar("Grafos/grafito_GeograficoSimple_"+str(n)+"_"+str(j)+".gv", True)
 
-        s = random.randint(0,len(grafito.nodos)-1)
+        print("Generando Kruscal")
+        kruscald = grafito.KruscalD()
+        print("Generando Kruscal I")
+        kruscali = grafito.KruscalI()
+        print("Generando Prim")
+        prim = grafito.Prim()
 
-        print("Generando dijstra")
-        dijstra = grafito.Dijstra(s)
-        dijstra.guardar("Grafos/grafito_GeograficoSimple_"+str(n)+"_"+str(j)+"_dijstra_N"+str(s)+".gv", True)
+        kruscald.guardar("Grafos/grafito_GeograficoSimple_"+str(n)+"_"+str(j)+"_KruscalD.gv", True)
+        kruscali.guardar("Grafos/grafito_GeograficoSimple_"+str(n)+"_"+str(j)+"_KruscalI.gv", True)
+        prim.guardar("Grafos/grafito_GeograficoSimple_"+str(n)+"_"+str(j)+"_Prim.gv", True)
 
 
 
@@ -373,11 +410,16 @@ for n in tamanios:
         grafito.generarValoresDeArista()
         grafito.guardar("Grafos/grafito_BarabasiAlbert_"+str(n)+"_"+str(j)+".gv", True)
 
-        s = random.randint(0,len(grafito.nodos)-1)
+        print("Generando Kruscal")
+        kruscald = grafito.KruscalD()
+        print("Generando Kruscal I")
+        kruscali = grafito.KruscalI()
+        print("Generando Prim")
+        prim = grafito.Prim()
 
-        print("Generando dijstra")
-        dijstra = grafito.Dijstra(s)
-        dijstra.guardar("Grafos/grafito_BarabasiAlbert_"+str(n)+"_"+str(j)+"_dijstra_N"+str(s)+".gv", True)
+        kruscald.guardar("Grafos/grafito_BarabasiAlbert_"+str(n)+"_"+str(j)+"_KruscalD.gv", True)
+        kruscali.guardar("Grafos/grafito_BarabasiAlbert_"+str(n)+"_"+str(j)+"_KruscalI.gv", True)
+        prim.guardar("Grafos/grafito_BarabasiAlbert_"+str(n)+"_"+str(j)+"_Prim.gv", True)
 
 
 
@@ -387,11 +429,16 @@ for n in tamanios:
         grafito.generarValoresDeArista()
         grafito.guardar("Grafos/grafito_DorogovtsevMendes_"+str(n)+"_"+str(j)+".gv", True)
 
-        s = random.randint(0,len(grafito.nodos)-1)
+        print("Generando Kruscal")
+        kruscald = grafito.KruscalD()
+        print("Generando Kruscal I")
+        kruscali = grafito.KruscalI()
+        print("Generando Prim")
+        prim = grafito.Prim()
 
-        print("Generando dijstra")
-        dijstra = grafito.Dijstra(s)
-        dijstra.guardar("Grafos/grafito_DorogovtsevMendes_"+str(n)+"_"+str(j)+"_dijstra_N"+str(s)+".gv", True)
+        kruscald.guardar("Grafos/grafito_DorogovtsevMendes_"+str(n)+"_"+str(j)+"_KruscalD.gv", True)
+        kruscali.guardar("Grafos/grafito_DorogovtsevMendes_"+str(n)+"_"+str(j)+"_KruscalI.gv", True)
+        prim.guardar("Grafos/grafito_DorogovtsevMendes_"+str(n)+"_"+str(j)+"_Prim.gv", True)
         
 
 """

@@ -40,7 +40,7 @@ class Grafo:
     
     def generarValoresDeArista(self):
         for a in self.aristas.values():
-            a.data = random.randint(0,30)
+            a.data = random.randint(1,30)
 
     def imprimir(self):
         for n in self.nodos.values():
@@ -191,5 +191,134 @@ class Grafo:
                         # Actualizar prioridad de v->d(v)=d(u)+le
             #arbol.imprimir()
 
-        return arbol 
+        return arbol
+    
+    def KruscalD(self):
+        arbol = Grafo()
+        grupos = []
+
+        # Creamos los grupos
+        for v in self.nodos.values():
+            grupos.append([v])
+            arbol.agregarNodo(v.data)
+
+        # Ordenamos
+        aristas = [arista for arista in self.aristas.values()]
+        aristas.sort(key=lambda a: a.data)
+
+        # Comenzamos a mezclar
+        for a in aristas:
+            g1 = -1
+            g2 = -1
+            #Buscar nodo de atista en grupos
+            for g in grupos:
+                if a.nodo1 in g:
+                    g1 = grupos.index(g)
+                    break
+            for g in grupos:
+                if a.nodo2 in g:
+                    g2 = grupos.index(g)
+                    break
+            # Si son de grupos diferentes los mezclo
+            if g1 != g2:
+                grupos[g1].extend(grupos[g2])
+                grupos.pop(g2)
+                id_a = arbol.agregarArista(a.nodo1.id, a.nodo2.id)
+                arbol.aristas[id_a].data = a.data
+        return arbol
+
+    def KruscalI(self):
+        arbol = Grafo()
+        for n in self.nodos.values():
+            arbol.agregarNodo(n.data)
+
+        # Generamos lista de aristas para ordenar
+        # Ordenamos
+        aristas = [arista for arista in self.aristas.values()]
+        aristas_arbol = [arista for arista in self.aristas.values()]
+        aristas.sort(key=lambda a: a.data, reverse=True)
+
+
+        for a in aristas:
+            # Vacio el arbol y vecinos de nodos
+            arbol.aristas = {}
+            for n in arbol.nodos.values():
+                n.vecinos = {}
+
+            # Vemos que pasa si se remueve de la lista de aristas
+            for ar in aristas_arbol:
+                if ar != a:
+                    arbol.agregarArista(ar.nodo1.id, ar.nodo2.id)
+
+            # Si no se desconectó el grafo
+            # bfs = arbol.BFS(0)
+            # print('\n**********************************************\nArbol:')
+            # arbol.imprimir()
+            # print('\n**********************************************\nBFS:')
+            # bfs.imprimir()
+            # print('**********************************************\n\n')
+            # nodosBFS = len(bfs.nodos)
+            # print(nodosBFS, "-",len(self.nodos), "--", len(arbol.aristas))
+            if len(arbol.BFS(0).nodos) == len(self.nodos):
+                aristas_arbol.pop(aristas_arbol.index(a))
+
+        # Vacio el arbol y vecinos de nodos
+        arbol.aristas = {}
+        for n in arbol.nodos.values():
+            n.vecinos = {}
+
+        # Vemos que pasa si se remueve de la lista de aristas
+        for ar in aristas_arbol:
+            id_a = arbol.agregarArista(ar.nodo1.id, ar.nodo2.id)
+            arbol.aristas[id_a].data = ar.data
+        
+        return arbol
+
+    def Prim(self):
+
+        Q = []
+        S = []
+
+        # Genero el los nodos en el arbol e inicializo Q
+        arbol = Grafo()
+        for n in self.nodos.values():
+            arbol.agregarNodo(n.data)
+            Q.append(n)
+            
+        # Tomo el primer nodo y lo guardo en S
+        S.append(Q.pop(0))
+
+        # Mientras Q no este vacio
+        while Q:
+            minimo = (float('inf'),None)
+
+            # print("\nBuscando en:")
+            # print("Q:", [str(q) for q in Q])
+            # print("S:", [str(s) for s in S])
+            # Por cada nodo en el arbol
+            for n in S:
+                # Busco sus vecinos no agregados
+                for v in n.vecinos:
+                    # Si no esta en S, verifica el valor de la arista
+                    if self.nodos[v] not in S:
+                        # Vemos la arista que va de 'n' a 'v'
+                        e = next(
+                            filter(
+                                lambda ar: ar == Arista(0,n,self.nodos[v]) or (not self.dirigido and ar == Arista(0,self.nodos[v],n)), 
+                                self.aristas.values()
+                            )
+                        )
+                        #print("\t", e.data, " | ", e.nodo1,"--", e.nodo2)
+                        # Si su valor es menor al minimo
+                        if e.data < minimo[0]:
+                            minimo = (e.data, e, self.nodos[v])
+            # Agrego el minimo a S y la arista al arbol
+            #print(len(Q))
+            pop_index = Q.index(minimo[2])
+            #print("Atista:", minimo[1].data,"Nodo:",Q[pop_index])
+            nodo = Q.pop(pop_index)
+            S.append(nodo)
+            id_a = arbol.agregarArista(minimo[1].nodo1.id, minimo[1].nodo2.id)
+            arbol.aristas[id_a].data = minimo[0]
+        return arbol
 

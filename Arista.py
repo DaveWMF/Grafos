@@ -8,7 +8,9 @@ class Arista:
         self.data = 0
     
     def __eq__(self, __value: object) -> bool:
-        return self.nodo1.id == __value.nodo1.id and self.nodo2.id == __value.nodo2.id
+        if isinstance(__value, Arista):
+            return self.nodo1.id == __value.nodo1.id and self.nodo2.id == __value.nodo2.id
+        return False
     
     def __hash__(self) -> int:
         return hash((self.nodo1.id,self.nodo2.id))

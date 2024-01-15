@@ -6,6 +6,11 @@ class Arista:
         self.nodo1 = nodo1
         self.nodo2 = nodo2
         self.data = 0
+
+        self.graficos = {
+            "color": (0,0,0),
+            "ancho":2
+        }
     
     def __eq__(self, __value: object) -> bool:
         if isinstance(__value, Arista):

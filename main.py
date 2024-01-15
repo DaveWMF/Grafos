@@ -1,5 +1,8 @@
 from Grafo import *
+from ArbolQuad import *
 import random
+from Ventana import *
+
 
 def grafoMalla(m, n, dirigido=False):
     """
@@ -16,7 +19,7 @@ def grafoMalla(m, n, dirigido=False):
     if n <= 1:
         n = 2
 
-    nuevo_grafo = Grafo(dirigido=dirigido)
+    nuevo_grafo = Grafo(dirigido=dirigido, nombre=("Malla de "+str(m)+"X"+str(n)))
 
     # Generamos nodos
     for i in range(m):
@@ -49,7 +52,7 @@ def grafoErdosRenyi(n, m, dirigido=False, auto=False):
     if m < n-1:
         m = n-1
 
-    nuevo_grafo = Grafo(dirigido=dirigido)
+    nuevo_grafo = Grafo(dirigido=dirigido, nombre=f"Erdos-Renyi {m} aristas")
     for i in range(n):
         nuevo_grafo.agregarNodo(i)
 
@@ -110,7 +113,7 @@ def grafoGilbert(n, p, dirigido=False, auto=False):
     if 0 > p and p < 1:
         p = 0.5 # Valor por defecto en caso de que se proporcione valor erroneo
     
-    nuevo_grafo = Grafo(dirigido=dirigido)
+    nuevo_grafo = Grafo(dirigido=dirigido, nombre=f"Gilbert ({p})")
     for i in range(n):
         nuevo_grafo.agregarNodo(i)
     for i in range(n):
@@ -149,10 +152,12 @@ def grafoGeograficoSimple(n, r, dirigido=False, auto=False):
     if 0 > r and r < 1:
         r = 0.2
 
-    nuevo_grafo = Grafo(dirigido=dirigido)
+    nuevo_grafo = Grafo(dirigido=dirigido, nombre=f"Geográfico ({r})")
     # Creamos puntos en un cuadro de 1x1
     for i in range(n):
-        nuevo_grafo.agregarNodo([random.random(), random.random()])
+        id_nn = nuevo_grafo.agregarNodo([random.random(), random.random()])
+        nuevo_grafo.nodos[id_nn].graficos["posicion"][0] = nuevo_grafo.nodos[id_nn].data[0]
+        nuevo_grafo.nodos[id_nn].graficos["posicion"][1] = nuevo_grafo.nodos[id_nn].data[1]
     for i in range(n):
         for j in range(n):
             # Si la distancia es menor
@@ -196,7 +201,7 @@ def grafoBarabasiAlbert(n, d, dirigido=False, auto=False):
     if d <= 1:
         d = 2
 
-    nuevo_grafo = Grafo(dirigido=dirigido)
+    nuevo_grafo = Grafo(dirigido=dirigido, nombre=f"Barabasi-Albert ({d})")
     for i in range(n):
         nuevo_grafo.agregarNodo(i)
 
@@ -235,7 +240,7 @@ def grafoDorogovtsevMendes(n, dirigido=False):
     if n < 3:
         n = 3
 
-    nuevo_grafo = Grafo(dirigido=dirigido)
+    nuevo_grafo = Grafo(dirigido=dirigido, nombre="Dorogovtsev Mendes")
     # Agregamos el primer triangulo
     for i in range(3):
         nuevo_grafo.agregarNodo(i)
@@ -309,9 +314,9 @@ def grafoDorogovtsevMendes(n, dirigido=False):
 # a = g.KruscalD()
 # b = g.KruscalI()
 # c = g.Prim()
-# g.imprimir()
-# a.imprimir()
-# c.imprimir()
+# # # g.imprimir()
+# # # a.imprimir()
+# # # c.imprimir()
 
 
 # g.guardar("GM.dot", True)
@@ -322,8 +327,32 @@ def grafoDorogovtsevMendes(n, dirigido=False):
 # exit()
 
 
+
+# Prueba Pygame
+
+g1 = grafoMalla(10,10)
+g2 = grafoErdosRenyi(100, 1500)
+g3 = grafoBarabasiAlbert(100, 10)
+g4 = grafoDorogovtsevMendes(100)
+# g1 = grafoGeograficoSimple(100, 0.3)
+# g2 = grafoGilbert(100,0.1)
+
+# qt = ArbolQuad(-400,400,400,-400, list(g.nodos.values()))
+# qt.generarArbol()
+# qt.guardar("qt.dot", True)
+
+v = Ventana(MODO_PANTALLA_DIV_4)
+
+v.ejecutar([g1, g2, g3, g4])
+
+exit()
+
+
+
+
+
 # Generacion de grafos
-tamanios = [30,300]
+tamanios = [300]
 cantidad = 1
 
 # Ciclo generador
@@ -350,7 +379,7 @@ for n in tamanios:
 
 
         
-        grafito = grafoErdosRenyi(n, n*random.randint(int(n/2),n)/2, False, False)
+        grafito = grafoErdosRenyi(n, n*random.randint(int(n/4),int(n*3/4))/2, False, False)
         grafito.generarValoresDeArista()
         grafito.guardar("Grafos/grafito_ErdosRenyi_"+str(n)+"_"+str(j)+".gv", True)
 

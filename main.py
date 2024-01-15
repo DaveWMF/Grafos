@@ -334,14 +334,10 @@ g1 = grafoMalla(10,10)
 g2 = grafoErdosRenyi(100, 1500)
 g3 = grafoBarabasiAlbert(100, 10)
 g4 = grafoDorogovtsevMendes(100)
-# g1 = grafoGeograficoSimple(100, 0.3)
-# g2 = grafoGilbert(100,0.1)
+# g1 = grafoGeograficoSimple(500, 0.10)
+# g2 = grafoGilbert(500,0.1)
 
-# qt = ArbolQuad(-400,400,400,-400, list(g.nodos.values()))
-# qt.generarArbol()
-# qt.guardar("qt.dot", True)
-
-v = Ventana(MODO_PANTALLA_DIV_4)
+v = Ventana(MODO_PANTALLA_COMPLETA)
 
 v.ejecutar([g1, g2, g3, g4])
 

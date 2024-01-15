@@ -44,27 +44,31 @@ class Ventana:
                 self.pintarGrafo(grafos[0])
 
 
-                grafos[0].expandirSpring(2,1,1,0.1)
-                #grafos[0].expandirForceDirected(self.tam[0],self.tam[1], temp)
-                #grafos[0].expandirForceDirectedBarnesHut(self.tam[0],self.tam[1], temp)
+                # grafos[0].expandirSpring(2,1,1,0.1)
+                # grafos[0].expandirForceDirected(self.tam[0],self.tam[1], temp)
+                grafos[0].expandirForceDirectedBarnesHut(self.tam[0],self.tam[1], temp)
             if self.modo == MODO_PANTALLA_DIV_2:
                 
                 #self.pintarGrafo(grafos[0],0)
                 #self.pintarGrafo(grafos[1],1)
-                grafos[0].expandirSpring(2,1,1,0.1)
-                grafos[1].expandirSpring(2,1,1,0.1)
+                # grafos[0].expandirSpring(2,1,1,0.1)
+                # grafos[1].expandirSpring(2,1,1,0.1)
+
+                # grafos[0].expandirForceDirected(self.tam[0],self.tam[1], temp)
+                # grafos[1].expandirForceDirected(self.tam[0],self.tam[1], temp)
+
                 grafos[0].expandirForceDirectedBarnesHut(self.tam[0],self.tam[1], temp)
                 grafos[1].expandirForceDirectedBarnesHut(self.tam[0],self.tam[1], temp)
 
             if self.modo == MODO_PANTALLA_DIV_4:
                 for i in range(min(4, len(grafos))):
                     self.pintarGrafo(grafos[i],i)
-                    grafos[i].expandirSpring(2,1,1,0.1)
-                    #grafos[i].expandirForceDirected(self.tam[0],self.tam[1], temp)
-                    # if primer_iter:
-                    #     grafos[i].expandirForceDirected(self.tam[0],self.tam[1], temp)
-                    #     primer_iter = False
-                    # grafos[i].expandirForceDirectedBarnesHut(self.tam[0],self.tam[1], temp)
+                    # grafos[i].expandirSpring(2,1,1,0.1)
+                    # grafos[i].expandirForceDirected(self.tam[0],self.tam[1], temp)
+                    if primer_iter:
+                        grafos[i].expandirForceDirected(self.tam[0],self.tam[1], temp)
+                        primer_iter = False
+                    grafos[i].expandirForceDirectedBarnesHut(self.tam[0],self.tam[1], temp)
             pygame.display.flip()
         pygame.quit()
 
@@ -83,7 +87,7 @@ class Ventana:
         #x = max_x - min_x
         y = max_y - min_y
 
-        escala = (self.tam[1])/y
+        escala = (self.tam[1]-100)/y
 
         centro_grafo = [(max_x + min_x)/2, (max_y + min_y)/2]
         desplazamiento = [ (self.tam[0]/2 - centro_grafo[0]*escala), (self.tam[1]/2 - centro_grafo[1]*escala)]
